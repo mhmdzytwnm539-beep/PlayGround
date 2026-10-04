@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة نمو متابعين فيسبوك — نمو شرعي</title>
+<style>
+:root{--fb:#1877f2;--bg:#f0f2f5;--card:#fff;--ink:#1c1e21;--mut:#65676b;--ok:#31a24c;--warn:#ff9800}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--fb);color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}
+header .wrap{max-width:1080px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+header h1{font-size:20px;margin:0}header p{margin:4px 0 0;opacity:.9;font-size:13px}
+.badge{background:#fff;color:var(--fb);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:700}
+main{max-width:1080px;margin:0 auto;padding:18px 16px 40px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.card h3{margin:0 0 6px;font-size:14px;color:var(--mut)}
+.card .num{font-size:30px;font-weight:800}
+.card small{color:var(--mut)}
+.progress{height:10px;background:#e4e6eb;border-radius:99px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;background:var(--fb);width:0;transition:width .4s}
+.row{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+@media(max-width:900px){.row{grid-template-columns:1fr}}
+h2{font-size:17px;margin:22px 0 10px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:140px;margin-top:10px}
+.bars div{flex:1;background:linear-gradient(180deg,#65a5f5,var(--fb));border-radius:8px 8px 4px 4px;min-height:12px;position:relative}
+.bars span{position:absolute;bottom:-20px;right:0;left:0;text-align:center;font-size:11px;color:var(--mut)}
+ul.check{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+ul.check li{background:#f5f6f7;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;font-size:14px}
+ul.check input{margin-top:3px;width:18px;height:18px;accent-color:var(--fb)}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:900px){.tips{grid-template-columns:1fr}}
+.tips .card{border-top:4px solid var(--fb)}
+.tips .card:nth-child(2){border-color:var(--ok)}.tips .card:nth-child(3){border-color:var(--warn)}
+.tips p{font-size:13.5px;line-height:1.8;color:#333;margin:6px 0 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:10px;border-bottom:1px solid #eee;text-align:right}th{background:#f5f6f7}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button,.btn{background:var(--fb);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:14px;cursor:pointer}
+button.ghost{background:#e4e6eb;color:#111}
+input[type=number],input[type=text]{padding:10px;border:1px solid #ccd0d5;border-radius:8px;font-size:14px;width:100%}
+.notice{background:#fff8e1;border:1px solid #ffe082;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.9;margin-top:16px}
+footer{text-align:center;color:var(--mut);font-size:12.5px;padding:18px}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<div><h1>📘 لوحة نمو متابعين فيسبوك</h1><p>تتبّع تقدّم صفحتك بالنمو الشرعي — بدون متابعين وهميين وبدون كلمة مرور</p></div>
+<div class="badge">نمو عضوي • يحترم سياسات فيسبوك</div>
+</div>
+</header>
+<main>
+<div class="grid">
+<div class="card"><h3>المتابعون الحاليون</h3><div class="num" id="statFollowers">2,450</div><small>آخر تحديث: اليوم</small><div class="progress"><i id="goalBar" style="width:49%"></i></div><small id="goalText">49% من هدف 5,000</small></div>
+<div class="card"><h3>هدف هذا الشهر</h3><div class="num">5,000</div><small>+300 متابع جديد هذا الأسبوع</small></div>
+<div class="card"><h3>معدل التفاعل</h3><div class="num">6.8%</div><small>▲ 1.2% عن الأسبوع الماضي</small></div>
+<div class="card"><h3>منشورات هذا الأسبوع</h3><div class="num" id="statPosts">4 / 7</div><small>التزم بخطة النشر اليومية</small></div>
+</div>
+<div class="row">
+<div class="card"><h2 style="margin:0">📊 نشاط الأسبوع (تفاعل)</h2><div class="bars" aria-hidden="true"><div style="height:35%"><span>السبت</span></div><div style="height:55%"><span>الأحد</span></div><div style="height:45%"><span>الاثنين</span></div><div style="height:70%"><span>الثلاثاء</span></div><div style="height:90%"><span>الأربعاء</span></div><div style="height:60%"><span>الخميس</span></div><div style="height:78%"><span>الجمعة</span></div></div><div style="height:22px"></div><div class="controls"><input type="number" id="addFollowers" placeholder="أدخل عدد المتابعين الحالي من صفحتك" style="flex:1;min-width:200px"><button id="updateBtn">تحديث العدد</button><button class="ghost" id="resetBtn">تصفير تجريبي</button></div></div>
+<div class="card"><h2 style="margin:0 0 10px">✅ قائمة النمو اليومية</h2><ul class="check" id="checklist"><li><input type="checkbox" checked><span><b>حسّن صورة الغلاف والوصف</b><br><small>أضف رابط واتساب وساعات العمل.</small></span></li><li><input type="checkbox" checked><span><b>انشر ريلز قصير (15-30 ثانية)</b><br><small>الريلز تصل لغير المتابعين.</small></span></li><li><input type="checkbox"><span><b>رد على كل التعليقات والرسائل</b><br><small>الرد السريع يرفع ترتيب الصفحة.</small></span></li><li><input type="checkbox"><span><b>شارك المنشور في 2 مجموعات مهتمة</b><br><small>بدون سبام — بقيمة حقيقية.</small></span></li><li><input type="checkbox"><span><b>ادعُ أصدقاء الصفحة للإعجاب</b><br><small>من زر “دعوة الأصدقاء” في الصفحة.</small></span></li></ul></div>
+</div>
+<h2>💡 6 طرق شرعية لجلب متابعين مهتمين</h2>
+<div class="tips">
+<div class="card"><b>1. المحتوى قبل الإعلان</b><p>انشر 3 أنواع بالتناوب: تعليمي، ترفيهي، وإثبات اجتماعي (آراء العملاء). الصفحة الفارغة لا يتابعها أحد.</p></div>
+<div class="card"><b>2. الريلز والبث المباشر</b><p>بث أسبوعي 20 دقيقة يجيب متابعين أكثر من 10 صور. ثبّت أفضل ريلز أعلى الصفحة.</p></div>
+<div class="card"><b>3. المسابقات النظيفة</b><p>اشترط: متابعة الصفحة + تعليق + منشن صديق. تجنب “تابعني أتابعك” الوهمي الذي يضر الوصول.</p></div>
+<div class="card"><b>4. التعاون المتبادل</b><p>تبادل النشر مع صفحة بنفس مجالك ونفس الحجم. إعلان ممول صغير (1-2$ يومياً) على أفضل منشور.</p></div>
+<div class="card"><b>5. الدعوات والمراجعات</b><p>فعّل زر “دعوة الأصدقاء”، واطلب تقييم 5 نجوم من كل عميل راضٍ — التقييمات تجلب الثقة والمتابعة.</p></div>
+<div class="card"><b>6. الاستمرارية والتحليل</b><p>راجع Insights كل جمعة: ما المنشور الذي جلب أكثر متابعة؟ كرره. احذف ما لا يعمل.</p></div>
+</div>
+<h2>🗓️ خطة نشر 7 أيام</h2>
+<div class="card" style="padding:0;overflow:hidden"><table><tr><th>اليوم</th><th>المنشور</th><th>الهدف</th></tr><tr><td>السبت</td><td>ريلز: كواليس العمل</td><td>وصول جديد</td></tr><tr><td>الأحد</td><td>صورة + سؤال للجمهور</td><td>تعليقات</td></tr><tr><td>الاثنين</td><td>شرح منتج / خدمة</td><td>ثقة</td></tr><tr><td>الثلاثاء</td><td>بث مباشر أسئلة وأجوبة</td><td>متابعون</td></tr><tr><td>الأربعاء</td><td>رأي عميل (فيديو)</td><td>إثبات</td></tr><tr><td>الخميس</td><td>مسابقة خفيفة</td><td>مشاركات</td></tr><tr><td>الجمعة</td><td>ملخص الأسبوع + دعوة للمتابعة</td><td>تحويل</td></tr></table></div>
+<div class="notice">⚠️ <b>تنبيه مهم:</b> هذه الأداة تعليمية للنمو الشرعي فقط. لا تقدم متابعين وهميين، ولا تطلب كلمة مرور فيسبوك أبداً، ولا تستخدم بوتات. المتابعون الوهميون يدمرون الوصول ويعرضون صفحتك للحظر. اربط صفحتك دائماً من داخل تطبيق فيسبوك الرسمي.</div>
+</main>
+<footer>صُنعت للنمو الحلال للصفحات العربية • البيانات محفوظة في متصفحك فقط (تجريبي)</footer>
+<script>
+(function(){var k='fb-growth-followers';var el=document.getElementById('statFollowers');var bar=document.getElementById('goalBar');var gt=document.getElementById('goalText');function fmt(n){return n.toLocaleString('en-US')}function render(v){el.textContent=fmt(v);var p=Math.min(100,Math.round(v/5000*100));bar.style.width=p+'%';gt.textContent=p+'% من هدف 5,000'}try{var s=localStorage.getItem(k);if(s)render(parseInt(s,10))}catch(e){}document.getElementById('updateBtn').onclick=function(){var v=parseInt(document.getElementById('addFollowers').value,10);if(!v||v<0)return alert('أدخل رقماً صحيحاً');try{localStorage.setItem(k,String(v))}catch(e){}render(v)};document.getElementById('resetBtn').onclick=function(){try{localStorage.removeItem(k)}catch(e){}render(2450);document.getElementById('addFollowers').value=''};})();
+</script>
+</body>
+</html>
