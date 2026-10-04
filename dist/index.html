@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>حادثة التصدع | The Fracture Incident - نموذج جوال</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#040b16;font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:#dff3ff;user-select:none}
+#game{position:fixed;inset:0}
+canvas{display:block}
+#hud{position:fixed;inset:0;pointer-events:none;z-index:5}
+#cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:22px}
+#cross::before,#cross::after{content:'';position:absolute;background:#7df9ff;box-shadow:0 0 6px #00e5ff}
+#cross::before{left:10px;top:2px;width:2px;height:18px}
+#cross::after{top:10px;left:2px;width:18px;height:2px}
+#topbar{position:absolute;top:0;right:0;left:0;display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(#04121fd9,transparent)}
+.bar{width:150px;height:12px;background:#10283a;border:1px solid #2dd4ff88;border-radius:8px;overflow:hidden}
+.bar>i{display:block;height:100%;transition:width .2s}
+#hp>i{background:linear-gradient(90deg,#ff3b5c,#ff9a3d)}
+#en>i{background:linear-gradient(90deg,#00e5ff,#7c4dff)}
+#obj{background:#041827cc;border:1px solid #22d3ee66;border-radius:10px;padding:6px 12px;font-size:13px;max-width:46vw}
+#modes{position:absolute;bottom:86px;left:50%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:auto}
+.mode{background:#071c30ee;border:1px solid #2dd4ff55;color:#bfefff;border-radius:12px;padding:8px 12px;font-size:13px;cursor:pointer;min-width:86px;text-align:center}
+.mode.active{background:#0e3a5c;border-color:#22d3ee;box-shadow:0 0 12px #22d3ee88;color:#fff}
+#toast{position:absolute;top:64px;left:50%;transform:translateX(-50%);background:#041827ee;border:1px solid #22d3ee;padding:8px 16px;border-radius:12px;font-size:14px;display:none;white-space:nowrap}
+#saveTag{position:absolute;bottom:8px;right:12px;font-size:11px;opacity:.7}
+/* menus */
+.screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0a243bcc 0%,#02070fdd 70%);padding:16px}
+.card{max-width:560px;width:100%;background:#061826f2;border:1px solid #22d3ee66;border-radius:18px;padding:22px;box-shadow:0 0 40px #00e5ff22;text-align:center}
+.card h1{font-size:26px;margin-bottom:4px;color:#fff;text-shadow:0 0 18px #00e5ff}
+.card h2{font-size:14px;color:#7dd3fc;font-weight:normal;margin-bottom:12px}
+.card p{font-size:14px;line-height:1.9;color:#c9e8f5;margin-bottom:12px}
+.btn{pointer-events:auto;display:inline-block;background:linear-gradient(90deg,#0891b2,#7c3aed);border:none;color:#fff;border-radius:12px;padding:12px 26px;font-size:16px;margin:6px;cursor:pointer;min-width:150px}
+.btn.ghost{background:#0b2a44;border:1px solid #22d3ee}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+/* touch controls */
+#touch{position:fixed;inset:0;z-index:6;pointer-events:none;display:none}
+#joy{position:absolute;bottom:20px;right:20px;width:120px;height:120px;border-radius:50%;background:#0b2a4488;border:1px solid #22d3ee88;pointer-events:auto}
+#stick{position:absolute;width:54px;height:54px;border-radius:50%;background:#22d3eeaa;left:33px;top:33px}
+#lookArea{position:absolute;top:0;left:0;right:0;bottom:0}
+#btns{position:absolute;bottom:18px;left:12px;display:flex;gap:8px;pointer-events:auto}
+.tbtn{width:62px;height:62px;border-radius:50%;background:#0b2a44dd;border:1px solid #22d3ee;color:#fff;font-size:12px}
+.tbtn.big{width:74px;height:74px;background:#7c3aedcc}
+#jumpBtn{position:absolute;bottom:150px;right:30px}
+@media (max-width:700px){#obj{font-size:11px;max-width:52vw}.bar{width:110px}#modes{bottom:120px}}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div id="hud">
+<div id="cross"></div>
+<div id="topbar">
+<div><div style="font-size:11px">❤️ طارق</div><div class="bar" id="hp"><i style="width:100%"></i></div>
+<div style="font-size:11px;margin-top:4px">⚡ بطارية الرنين</div><div class="bar" id="en"><i style="width:100%"></i></div></div>
+<div id="obj">🎯 الهدف: شغّل المولدين (0/2) ثم اهرب للقطار</div>
+</div>
+<div id="modes">
+<div class="mode active" data-m="0">🧲 سحب/دفع<br><small>زر إطلاق</small></div>
+<div class="mode" data-m="1">❄️ ستاسيس<br><small>تجميد 4ث</small></div>
+<div class="mode" data-m="2">⚡ EMP<br><small>كهرباء</small></div>
+</div>
+<div id="toast"></div>
+<div id="saveTag">💾 حفظ تلقائي نشط</div>
+</div>
+<div id="touch">
+<div id="lookArea"></div>
+<div id="joy"><div id="stick"></div></div>
+<div id="btns">
+<button class="tbtn big" id="fireBtn">🎯<br>فعل</button>
+<button class="tbtn" id="modeBtn">🔄<br>وضع</button>
+<button class="tbtn" id="actBtn">✋<br>تفاعل</button>
+</div>
+<button class="tbtn" id="jumpBtn">⬆️</button>
+</div>
+
+<div class="screen" id="menu">
+<div class="card">
+<h1>حادثة التصدع</h1>
+<h2>THE FRACTURE INCIDENT — نموذج 3D للجوال والتابلت</h2>
+<p>أنت <b>طارق</b> مهندس الأنظمة. انفجر المفاعل البُعدي وسيطرت البلورات على المنشأة الجليدية.<br>
+جهازك <b>Resonance Rig</b> هو سلاحك: اسحب الصناديق والبراميل، جمّد الأعداء، ووصّل الكهرباء.<br>
+العميان <b>Echoes</b> يسمعون خطواتك — امشِ ببطء أو ارمِ شيئاً لتشتيتهم.</p>
+<p style="font-size:12px;opacity:.85">🖱️ PC: WASD + فأرة + E تفاعل + Q تبديل + Shift ركض | 📱 جوال: عصا + سحب للنظر</p>
+<div class="row">
+<button class="btn" id="startBtn">▶️ لعبة جديدة</button>
+<button class="btn ghost" id="continueBtn">💾 متابعة الحفظ</button>
+</div>
+<p id="saveInfo" style="font-size:12px"></p>
+</div>
+</div>
+
+<div class="screen" id="endScreen" style="display:none">
+<div class="card">
+<h1 id="endTitle">🚂 نجوت!</h1>
+<p id="endText"></p>
+<button class="btn" onclick="location.reload()">🔄 العب مجدداً</button>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js"></script>
+<script>
+// ===== The Fracture Incident — mobile playable prototype =====
+let scene,camera,renderer,clock;
+let player={pos:null,vel:new THREE.Vector3(),hp:100,energy:100,yaw:0,pitch:0,onGround:true,noise:0};
+let keys={},mode=0,grabbed=null,generators={},genCount=0,gameOn=false,autoTimer=0;
+let enemies=[],boxes=[],crystals=[],statics=[];
+let turbine,turbineOn=true,reactorDoor,trainPos=new THREE.Vector3(0,0,-46);
+const SAVE_KEY='fracture_save_auto_v1';
+const isTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+
+function toast(t,ms=2200){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',ms);}
+function setObj(t){document.getElementById('obj').innerHTML=t;}
+function setBars(){document.querySelector('#hp i').style.width=player.hp+'%';document.querySelector('#en i').style.width=player.energy+'%';}
+
+function init(){
+scene=new THREE.Scene();
+scene.background=new THREE.Color(0x040b16);
+scene.fog=new THREE.Fog(0x040b16,10,70);
+camera=new THREE.PerspectiveCamera(isTouch?78:75,innerWidth/innerHeight,.1,200);
+renderer=new THREE.WebGLRenderer({antialias:!isTouch,powerPreference:'high-performance'});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,isTouch?1.5:2));
+renderer.shadowMap.enabled=!isTouch;
+document.getElementById('game').appendChild(renderer.domElement);
+clock=new THREE.Clock();
+scene.add(new THREE.HemisphereLight(0x9fd8ff,0x0a1420,.9));
+const amb=new THREE.AmbientLight(0x335577,.6);scene.add(amb);
+const pl=new THREE.PointLight(0x00e5ff,1.2,40);pl.position.set(0,6,-10);scene.add(pl);
+const pl2=new THREE.PointLight(0x7c4dff,1,35);pl2.position.set(0,6,-35);scene.add(pl2);
+
+player.pos=new THREE.Vector3(0,1.7,10);
+buildLevel();
+bindInput();
+loadAuto(true);
+animate();
+}
+function mat(c,e=0x000000){return new THREE.MeshStandardMaterial({color:c,emissive:e,roughness:.7,metalness:.25});}
+function wall(x,y,z,w,h,d,c=0x1a3248){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c));m.position.set(x,y,z);m.receiveShadow=true;scene.add(m);statics.push(m);return m;}
+function buildLevel(){
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(30,90),new THREE.MeshStandardMaterial({color:0x0e2233,roughness:.35,metalness:.5}));
+floor.rotation.x=-Math.PI/2;floor.position.set(0,0,-18);floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(90,45,0x00e5ff,0x0b2a44);grid.position.y=.02;grid.position.z=-18;grid.material.transparent=true;grid.material.opacity=.25;scene.add(grid);
+// corridor walls
+wall(-8,3,-18,.6,6,90);wall(8,3,-18,.6,6,90);
+wall(0,6,-18,18,.6,90,0x0b1c2e);
+for(let z=8;z>=-60;z-=12){wall(-8,4.4,z,16,.5,1,0x123);}
+// ice crystals (resonant)
+for(let i=0;i<14;i++){const c=new THREE.Mesh(new THREE.OctahedronGeometry(.5+Math.random()*.5),new THREE.MeshStandardMaterial({color:0x66f6ff,emissive:0x00c8ff,emissiveIntensity:1.2,transparent:true,opacity:.9}));
+c.position.set((Math.random()<.5?-1:1)*(6.5+Math.random()*2),1+Math.random()*2,6-Math.random()*60);scene.add(c);crystals.push(c);}
+// movable boxes + explosive barrels
+function box(x,z,exp=false){const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),mat(exp?0xb3382e:0x3a5a78,exp?0x550000:0x001122));
+m.position.set(x,.5,z);m.castShadow=true;m.userData={grab:false,exp:!!exp,vel:new THREE.Vector3()};scene.add(m);boxes.push(m);return m;}
+box(-2,4);box(2,2);box(-3,-6,true);box(3,-8);box(1,-20,true);box(-2,-28);box(2,-14,true);
+// turbine blades blocking corridor at z=-16
+turbine=new THREE.Group();
+for(let i=0;i<3;i++){const b=new THREE.Mesh(new THREE.BoxGeometry(.3,3.4,.6),mat(0x9fb6cc));b.position.y=0;const holder=new THREE.Group();holder.add(b);b.position.y=1;holder.rotation.z=i*Math.PI*2/3;turbine.add(holder);}
+turbine.position.set(0,2,-16);scene.add(turbine);
+wall(0,4.6,-16,6,.4,1,0x442200);
+// generators
+function gen(x,z,id){const g=new THREE.Group();
+const base=new THREE.Mesh(new THREE.BoxGeometry(1.6,2,1.2),mat(0x274b63));base.position.y=1;g.add(base);
+const lamp=new THREE.Mesh(new THREE.SphereGeometry(.25),new THREE.MeshStandardMaterial({color:0xff4444,emissive:0xff0000,emissiveIntensity:1}));lamp.position.y=2.4;g.add(lamp);
+g.position.set(x,0,z);scene.add(g);generators[id]={grp:g,lamp:lamp,on:false};return g;}
+gen(-6,-24,'A');gen(6,-24,'B');
+// reactor door at z=-34
+reactorDoor=wall(0,2,-34,10,4,.6,0x7c2d12);
+// train platform z=-46
+const train=new THREE.Mesh(new THREE.BoxGeometry(6,3,10),mat(0xcc7722));train.position.set(0,1.5,-46);scene.add(train);
+const sign=new THREE.Mesh(new THREE.BoxGeometry(8,.8,.3),new THREE.MeshStandardMaterial({color:0x111111,emissive:0x00ff88,emissiveIntensity:.8}));
+sign.position.set(0,4,-40);scene.add(sign);
+// enemies: Echoes
+spawnEcho(-3,-10);spawnEcho(3,-26);spawnEcho(0,-38);
+}
+function spawnEcho(x,z){const g=new THREE.Group();
+const body=new THREE.Mesh(new THREE.CapsuleGeometry(.45,1.1,4,8),mat(0x1c1c26));body.position.y=1.1;g.add(body);
+const head=new THREE.Mesh(new THREE.OctahedronGeometry(.35),new THREE.MeshStandardMaterial({color:0xaa66ff,emissive:0x7c3aed,emissiveIntensity:1.5}));head.position.y=2.2;g.add(head);
+g.position.set(x,0,z);scene.add(g);
+enemies.push({m:g,hp:60,frozen:0,state:'idle',speed:2.2,hearR:17,atkCd:0});
+}
+// ===== input =====
+function bindInput(){
+addEventListener('keydown',e=>{keys[e.code]=true;
+if(e.code==='KeyQ')switchMode((mode+1)%3);
+if(e.code==='KeyE')doInteract();
+if(e.code==='Digit1')switchMode(0);if(e.code==='Digit2')switchMode(1);if(e.code==='Digit3')switchMode(2);});
+addEventListener('keyup',e=>keys[e.code]=false);
+// mouse look (drag fallback so screenshots/iframes work without pointer lock)
+let drag=false,lx=0,ly=0;
+renderer.domElement.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;if(gameOn&&renderer.domElement.requestPointerLock&&!isTouch){try{renderer.domElement.requestPointerLock();}catch{}}});
+addEventListener('mouseup',e=>{drag=false;if(gameOn&&document.pointerLockElement)handleFire();});
+addEventListener('mousemove',e=>{if(!gameOn)return;
+if(document.pointerLockElement===renderer.domElement){player.yaw-=e.movementX*.0022;player.pitch-=e.movementY*.0022;}
+else if(drag){player.yaw-=(e.clientX-lx)*.004;player.pitch-=(e.clientY-ly)*.004;lx=e.clientX;ly=e.clientY;}
+player.pitch=Math.max(-1.4,Math.min(1.4,player.pitch));});
+renderer.domElement.addEventListener('click',()=>{if(gameOn&&!document.pointerLockElement&&!isTouch)handleFire();});
+document.querySelectorAll('.mode').forEach(el=>el.onclick=()=>switchMode(+el.dataset.m));
+// touch
+if(isTouch)document.getElementById('touch').style.display='block';
+setupTouch();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&gameOn)saveAuto('طارئ ✅');});
+document.getElementById('startBtn').onclick=()=>{resetGame();};
+document.getElementById('continueBtn').onclick=()=>{gameOn=true;hideMenu();loadAuto(false);toast('💾 تم تحميل الحفظ التلقائي');};
+}
+let joyV={x:0,y:0};
+function setupTouch(){
+const joy=document.getElementById('joy'),stick=document.getElementById('stick');
+let jid=null;
+joy.addEventListener('touchstart',e=>{jid=e.changedTouches[0].identifier;},{passive:true});
+addEventListener('touchmove',e=>{
+for(const t of e.changedTouches){
+if(t.identifier===jid){const r=joy.getBoundingClientRect();let dx=t.clientX-(r.left+60),dy=t.clientY-(r.top+60);dx=Math.max(-40,Math.min(40,dx));dy=Math.max(-40,Math.min(40,dy));joyV={x:dx/40,y:dy/40};stick.style.left=(33+dx)+'px';stick.style.top=(33+dy)+'px';}
+}}, {passive:true});
+addEventListener('touchend',e=>{for(const t of e.changedTouches){if(t.identifier===jid){jid=null;joyV={x:0,y:0};stick.style.left='33px';stick.style.top='33px';}}});
+// look
+const la=document.getElementById('lookArea');let lid=null,px=0,py=0;
+la.style.pointerEvents='auto';
+la.addEventListener('touchstart',e=>{const t=e.changedTouches[0];lid=t.identifier;px=t.clientX;py=t.clientY;},{passive:true});
+la.addEventListener('touchmove',e=>{for(const t of e.changedTouches){if(t.identifier===lid&&gameOn){player.yaw-=(t.clientX-px)*.006;player.pitch-=(t.clientY-py)*.006;player.pitch=Math.max(-1.4,Math.min(1.4,player.pitch));px=t.clientX;py=t.clientY;}}},{passive:true});
+la.addEventListener('touchend',e=>{for(const t of e.changedTouches){if(t.identifier===lid)lid=null;}});
+document.getElementById('fireBtn').ontouchstart=e=>{e.preventDefault();handleFire();};
+document.getElementById('modeBtn').ontouchstart=e=>{e.preventDefault();switchMode((mode+1)%3);};
+document.getElementById('actBtn').ontouchstart=e=>{e.preventDefault();doInteract();};
+document.getElementById('jumpBtn').ontouchstart=e=>{e.preventDefault();if(player.onGround)player.vel.y=5;};
+}
+function hideMenu(){document.getElementById('menu').style.display='none';}
+function resetGame(){localStorage.removeItem(SAVE_KEY);player.hp=100;player.energy=100;player.pos.set(0,1.7,10);genCount=0;for(const k in generators){generators[k].on=false;generators[k].lamp.material.emissive.setHex(0xff0000);}if(reactorDoor)reactorDoor.visible=true;gameOn=true;hideMenu();toast('🧊 القطاع الأول: اهرب من الغرف المهدومة');setObj('🎯 الهدف: شغّل المولدين (0/2) ثم اهرب للقطار');}
+function switchMode(m){mode=m;document.querySelectorAll('.mode').forEach(el=>el.classList.toggle('active',+el.dataset.m===m));
+toast(['🧲 وضع الجاذبية: اسحب واقذف','❄️ ستاسيس: جمّد الأعداء والمراوح','⚡ EMP: فعّل المولدات'][m]);}
+// ===== actions =====
+const ray=new THREE.Raycaster();ray.far=16;
+function centerRay(){ray.setFromCamera({x:0,y:0},camera);const hits=ray.intersectObjects([...boxes,...enemies.map(e=>e.m),turbine,...Object.values(generators).map(g=>g.grp)],true);return hits[0];}
+function handleFire(){
+if(!gameOn)return;
+if(mode===0){ // pull / push
+if(grabbed){ // throw
+const dir=new THREE.Vector3();camera.getWorldDirection(dir);grabbed.userData.vel.copy(dir.multiplyScalar(16));grabbed.userData.vel.y+=3;grabbed.userData.grab=false;player.noise=1;
+if(grabbed.userData.exp)explodeCheck(grabbed);
+grabbed=null;toast('💥 قذف!');return;}
+const h=centerRay();let o=h?h.object:null;while(o&&!boxes.includes(o))o=o.parent;
+if(o&&h.distance<14){grabbed=o;o.userData.grab=true;player.noise=.6;toast('🧲 ممسوك! اضغط مجدداً للقذف كدرع');}
+else toast('لا جسم قريب — اقترب من صندوق أو برميل');
+}else if(mode===1){ // stasis
+if(player.energy<25){toast('⚡ بطارية ناقصة!');return;}
+player.energy-=25;const h=centerRay();
+if(h){let root=h.object;while(root.parent&&root.parent!==scene)root=root.parent;
+const en=enemies.find(e=>e.m===root||root.children.includes(e.m.children[0]));
+if(en){en.frozen=4;toast('❄️ تجميد 4 ثوان!');}
+if(h.object&&(turbine===h.object||turbine.children.includes(h.object)||h.object.parent&&turbine.children.includes(h.object.parent))){turbineOn=false;setTimeout(()=>turbineOn=true,4000);toast('❄️ المروحة مجمدة — اعبر!');}
+else if(!en)toast('❄️ نبضة ستاسيس!');
+}setBars();
+}else{ // EMP
+if(player.energy<20){toast('⚡ بطارية ناقصة!');return;}
+const h=centerRay();
+if(h){let g=h.object;while(g&&!Object.values(generators).some(v=>v.grp===g))g=g.parent;
+if(g){const id=Object.keys(generators).find(k=>generators[k].grp===g);
+if(!generators[id].on){generators[id].on=true;generators[id].lamp.material.emissive.setHex(0x00ff88);player.energy-=20;genCount++;saveAuto('مولد '+genCount);toast('⚡ مولد '+id+' يعمل! ('+genCount+'/2)');
+setObj('🎯 الهدف: شغّل المولدين ('+genCount+'/2)'+(genCount>=2?' — الباب مفتوح! اذهب للقطار 🚂':''));
+if(genCount>=2){reactorDoor.visible=false;toast('🚪 باب المفاعل انفتح! اهرب!');}
+}else toast('هذا المولد يعمل مسبقاً');}
+else toast('وجّه نحو مولد أحمر');
+}setBars();
+}
+}
+function doInteract(){ // E / ✋ : open / grab info
+const h=centerRay();
+if(h&&h.distance<3.5){let g=h.object;while(g&&!Object.values(generators).some(v=>v.grp===g))g=g.parent;
+if(g){handleFire();return;}}
+toast('🔧 طارق: أحتاج تشغيل المولدين بوضع EMP ثم الوصول للقطار');
+}
+function explodeCheck(b){ // barrel thrown hard -> explode near enemies
+setTimeout(()=>{if(!boxes.includes(b))return;
+const pos=b.position.clone();
+let hit=false;for(const e of enemies){if(e.m.position.distanceTo(pos)<4){e.hp-=80;hit=true;}}
+if(hit||true){ // visual boom
+const boom=new THREE.Mesh(new THREE.SphereGeometry(2.2,12,12),new THREE.MeshBasicMaterial({color:0xffaa00,transparent:true,opacity:.9}));
+boom.position.copy(pos);scene.add(boom);setTimeout(()=>scene.remove(boom),300);
+scene.remove(b);boxes.splice(boxes.indexOf(b),1);if(grabbed===b)grabbed=null;
+player.noise=1;
+for(const e of enemies){if(e.hp<=0&&!e.dead){e.dead=true;scene.remove(e.m);toast('☠️ عدو سقط!');}}
+}},350);
+}
+// ===== save (section 5) =====
+function saveAuto(reason){if(!gameOn)return;
+try{const d={pos:player.pos.toArray(),hp:player.hp,energy:player.energy,gen:{A:generators.A.on,B:generators.B.on},genCount,time:Date.now(),reason};
+localStorage.setItem(SAVE_KEY,JSON.stringify(d));
+document.getElementById('saveTag').textContent='💾 حفظ تلقائي: '+new Date().toLocaleTimeString()+(reason?' ('+reason+')':'');
+const si=document.getElementById('saveInfo');if(si)si.textContent='يوجد حفظ تلقائي: '+new Date(d.time).toLocaleString()+' — مولدات '+genCount+'/2';
+}catch{}}
+function loadAuto(silent){try{const s=localStorage.getItem(SAVE_KEY);if(!s){if(!silent)toast('لا يوجد حفظ بعد');return false;}
+const d=JSON.parse(s);player.pos.fromArray(d.pos);player.hp=d.hp;player.energy=d.energy;genCount=d.genCount||0;
+for(const k in d.gen){if(d.gen[k]&&generators[k]){generators[k].on=true;generators[k].lamp.material.emissive.setHex(0x00ff88);}}
+if(genCount>=2&&reactorDoor)reactorDoor.visible=false;
+setObj('🎯 الهدف: شغّل المولدين ('+genCount+'/2) ثم اهرب للقطار');setBars();return true;}catch{return false;}}
+
+// ===== loop =====
+function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05);
+if(gameOn)update(dt);
+// crystals pulse
+const t=performance.now()*.001;for(const c of crystals){c.rotation.y+=dt;c.position.y+=Math.sin(t*2+c.position.z)*dt*.3;}
+if(turbine&&turbineOn)turbine.rotation.z+=dt*3;
+renderer.render(scene,camera);}
+function update(dt){
+player.noise*=Math.pow(.1,dt);player.energy=Math.min(100,player.energy+dt*6);
+const sp=(keys['ShiftLeft']||keys['ShiftRight'])?6:3.5;
+const f=(keys['KeyW']?1:0)-(keys['KeyS']?1:0)+(-joyV.y);
+const s=(keys['KeyD']?1:0)-(keys['KeyA']?1:0)+(joyV.x);
+const dir=new THREE.Vector3(Math.sin(player.yaw),0,Math.cos(player.yaw));
+const side=new THREE.Vector3(dir.z,0,-dir.x);
+const mv=new THREE.Vector3().addScaledVector(dir,-f).addScaledVector(side,s);
+if(mv.lengthSq()>0){mv.normalize().multiplyScalar(sp*dt);player.pos.add(mv);player.noise=Math.max(player.noise,sp>4?.9:.35);}
+// jump/gravity
+player.vel.y-=12*dt;player.pos.y+=player.vel.y*dt;
+if(player.pos.y<=1.7){player.pos.y=1.7;player.vel.y=0;player.onGround=true;}else player.onGround=false;
+if(keys['Space']&&player.onGround)player.vel.y=5;
+player.pos.x=Math.max(-7,Math.min(7,player.pos.x));player.pos.z=Math.max(-52,Math.min(11,player.pos.z));
+// turbine block
+if(turbineOn&&Math.abs(player.pos.z+16)<1.2&&Math.abs(player.pos.x)<2.5){player.pos.z=-14.5;if(player.hp>0){player.hp-=20*dt;setBars();}}
+// grabbed follows
+if(grabbed){const d=new THREE.Vector3();camera.getWorldDirection(d);grabbed.position.copy(player.pos).addScaledVector(d,3);grabbed.position.y=Math.max(.5,grabbed.position.y);}
+// boxes physics (thrown)
+for(const b of[...boxes]){if(!b.userData.grab&&(b.userData.vel.lengthSq()>0)){b.userData.vel.y-=10*dt;b.position.addScaledVector(b.userData.vel,dt);if(b.position.y<.5){b.position.y=.5;b.userData.vel.multiplyScalar(.4);if(b.userData.vel.length()<1)b.userData.vel.set(0,0,0);}}}
+// camera
+camera.position.copy(player.pos);camera.rotation.set(0,0,0);camera.rotation.order='YXZ';camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
+// enemies AI (hear noise)
+for(const e of enemies){if(e.dead)continue;
+if(e.frozen>0){e.frozen-=dt;e.m.rotation.z=Math.sin(performance.now()*.02)*.1;continue;}
+const dist=e.m.position.distanceTo(player.pos);
+let target=null;
+if(player.noise>.5&&dist<e.hearR)target=player.pos;
+else if(dist<3)target=player.pos; // touch sense
+if(target){const d=new THREE.Vector3().subVectors(target,e.m.position);d.y=0;d.normalize();e.m.position.addScaledVector(d,e.speed*dt*1.4);e.m.lookAt(target.x,0,target.z);
+if(dist<1.4){e.atkCd-=dt;if(e.atkCd<=0){e.atkCd=1;player.hp-=12;setBars();toast('👹 Echo يعضك! اهرب أو جمّده!');if(player.hp<=0)return die();}}}else{e.m.rotation.y+=dt*.5;}
+e.m.children[0].position.y=1.1+Math.sin(performance.now()*.005+e.m.position.z)*.08;
+}
+// win
+if(player.pos.distanceTo(trainPos)<4&&genCount>=2)return win();
+autoTimer+=dt;if(autoTimer>10){autoTimer=0;saveAuto();}
+setBars();
+}
+function die(){gameOn=false;const s=document.getElementById('endScreen');s.style.display='flex';document.getElementById('endTitle').textContent='💀 سقط طارق';document.getElementById('endText').textContent='سيطرت البلورات... لكن الحفظ التلقائي موجود. أعد التحميل وحاول التسلل ببطء واستخدم البراميل المتفجرة.';setTimeout(()=>{s.style.display='none';loadAuto(false);player.hp=100;setBars();gameOn=true;},3000);}
+function win(){gameOn=false;saveAuto('هرب');localStorage.removeItem(SAVE_KEY);const s=document.getElementById('endScreen');s.style.display='flex';document.getElementById('endTitle').textContent='🚂 نجوت من التصدع!';document.getElementById('endText').textContent='أعدت تثبيت المفاعل وهربت بقطار الإجلاء السطحي. القطاع الأول مكتمل — القاعة المعكوسة تنتظرك في النسخة الكاملة.';}
+init();
+</script>
+</body>
+</html>
