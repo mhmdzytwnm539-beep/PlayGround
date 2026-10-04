@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فولو بوست | منصة نمو متابعين فيسبوك</title>
+<meta name="description" content="منصة عربية لنمو متابعين فيسبوك بشكل شرعي وآمن: مهام، نقاط، تحليلات، ونصائح. بدون باسورد.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --fb:#1877F2; --fb-dark:#0d5dc8; --bg:#0b1220; --bg2:#111c33;
+  --card:#16223d; --card2:#1c2b4d; --text:#f1f5ff; --muted:#9fb0cc;
+  --green:#22c55e; --gold:#fbbf24; --red:#ef4444; --border:rgba(255,255,255,.1);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:radial-gradient(1000px 600px at 80% -10%, #1a3a8a 0%, transparent 60%),radial-gradient(800px 500px at 10% 10%, #0e5a6b 0%, transparent 55%),var(--bg);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}
+.container{max-width:1150px;margin:0 auto;padding:0 18px}
+/* NAV */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(11,18,32,.82);border-bottom:1px solid var(--border)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;max-width:1150px;margin:auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px}
+.logo i{background:var(--fb);width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-size:22px;box-shadow:0 8px 25px rgba(24,119,242,.5)}
+.logo small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.links{display:flex;gap:20px;font-weight:700;color:var(--muted)}
+.links a:hover{color:#fff}
+.btn{background:var(--fb);color:#fff;border:none;padding:12px 24px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{background:var(--fb-dark);transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.08);border:1px solid var(--border)}
+.btn.green{background:var(--green)} .btn.gold{background:var(--gold);color:#111}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.menu-btn{display:none;background:none;border:1px solid var(--border);color:#fff;border-radius:10px;padding:8px 12px;font-size:18px}
+/* HERO */
+.hero{padding:60px 0 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.14);color:#86efac;border:1px solid rgba(34,197,94,.3);padding:7px 14px;border-radius:100px;font-size:13px;font-weight:700}
+.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.25;font-weight:900;margin:16px 0}
+.hero h1 span{color:#5da4ff}
+.hero p{color:var(--muted);font-size:17px;line-height:1.9}
+.hero-cta{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.trust{display:flex;gap:18px;margin-top:18px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+.trust i{color:var(--green)}
+.phone{ background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:28px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.phone::before{content:'';position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--fb),transparent 70%);opacity:.4}
+.fb-card{background:#0f1a30;border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:14px}
+.fb-head{display:flex;gap:12px;align-items:center}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--fb),#7aa8ff);display:grid;place-items:center;font-size:24px;font-weight:900}
+.fb-head b{font-size:16px} .fb-head small{color:var(--muted);display:block;font-size:12px}
+.follow-row{display:flex;gap:10px;margin-top:12px}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;text-align:center}
+.stat{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:10px}
+.stat b{font-size:18px;display:block} .stat small{color:var(--muted)}
+.progress{height:10px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin-top:12px}
+.progress div{height:100%;background:linear-gradient(90deg,var(--fb),#00d4ff);width:0%;transition:1s}
+/* SECTIONS */
+section{padding:34px 0}
+.sec-title{text-align:center;margin-bottom:22px}
+.sec-title h2{font-size:28px;font-weight:900}
+.sec-title p{color:var(--muted)}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:1fr 1fr}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+.card h3{margin:10px 0 6px} .card p{color:var(--muted);font-size:14.5px;line-height:1.8}
+.icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px}
+label{font-weight:800;font-size:14px;display:block;margin:12px 0 6px}
+input,select,textarea{width:100%;background:#0c162c;border:1px solid var(--border);color:#fff;border-radius:12px;padding:13px 14px;font-size:15px;font-family:inherit;outline:none}
+input:focus{border-color:var(--fb)}
+.task{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:10px}
+.task .t{display:flex;gap:12px;align-items:center}
+.task .t i{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:rgba(24,119,242,.18);color:#6ea8ff}
+.points{font-weight:900;color:var(--gold)}
+.wallet{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.wallet .w{flex:1;min-width:150px;background:#0c162c;border:1px dashed rgba(251,191,36,.4);border-radius:14px;padding:14px;text-align:center}
+.wallet .w b{font-size:26px;display:block}
+.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.table th,.table td{padding:10px;border-bottom:1px solid var(--border);text-align:right}
+.table th{color:var(--muted)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:#0f1e3a;border:1px solid var(--fb);padding:14px 22px;border-radius:14px;font-weight:800;transition:.3s;z-index:100;box-shadow:0 15px 40px rgba(0,0,0,.5)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.faq{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;margin-top:10px;overflow:hidden}
+.faq button{width:100%;background:none;border:none;color:#fff;padding:16px;font-size:16px;font-weight:800;text-align:right;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit}
+.faq .a{display:none;padding:0 16px 16px;color:var(--muted);line-height:1.9}
+.faq.open .a{display:block}
+.security{background:linear-gradient(90deg,rgba(239,68,68,.15),rgba(251,191,36,.12));border:1px solid rgba(239,68,68,.35);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:flex-start;line-height:1.9}
+footer{border-top:1px solid var(--border);margin-top:30px;padding:24px 0;color:var(--muted);text-align:center;font-size:14px}
+.calc-out{background:#0c162c;border-radius:14px;padding:16px;margin-top:12px;line-height:2}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.g3,.g2{grid-template-columns:1fr}.links{display:none}.menu-btn{display:block}.links.m{display:flex;flex-direction:column;position:absolute;top:68px;right:12px;background:#0f1e3a;border:1px solid var(--border);border-radius:14px;padding:14px;z-index:60}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo"><i class="fab fa-facebook-f"></i><div>فولو بوست<small>نمو صفحات فيسبوك بأمان</small></div></div>
+    <div class="links" id="links">
+      <a href="#add">أضف صفحتك</a><a href="#tasks">المهام والنقاط</a><a href="#calc">حاسبة النمو</a><a href="#plans">الباقات</a><a href="#tips">نصائح</a>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="#tasks" class="btn"><i class="fa fa-bolt"></i> ابدأ مجاناً</a>
+      <button class="menu-btn" onclick="document.getElementById('links').classList.toggle('m')"><i class="fa fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="badge"><i class="fa fa-shield-halved"></i> بدون باسورد • بدون حظر • نمو شرعي 100%</div>
+      <h1>زود <span>متابعين فيسبوك</span> لصفحتك بسرعة وأمان</h1>
+      <p>اربط رابط صفحتك، نفّذ مهام يومية بسيطة، اجمع نقاط وحوّلها لطلبات متابعين وتفاعل. لوحة تحكم عربية كاملة + حاسبة نمو + خطة محتوى جاهزة — كل ده مجاناً من المتصفح.</p>
+      <div class="hero-cta">
+        <a href="#add" class="btn"><i class="fa fa-link"></i> أضف رابط صفحتك</a>
+        <a href="#tasks" class="btn ghost"><i class="fa fa-coins"></i> اجمع نقاط</a>
+      </div>
+      <div class="trust">
+        <span><i class="fa fa-check-circle"></i> <b id="usersCount">12,480</b> مستخدم</span>
+        <span><i class="fa fa-check-circle"></i> لا نطلب كلمة السر أبداً</span>
+        <span><i class="fa fa-check-circle"></i> يعمل على الموبايل</span>
+      </div>
+    </div>
+    <div class="phone">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b><i class="fab fa-facebook" style="color:#5da4ff"></i> معاينة صفحتك</b>
+        <span class="points"><i class="fa fa-coins"></i> <span id="hdrPoints">0</span> نقطة</span>
+      </div>
+      <div class="fb-card">
+        <div class="fb-head">
+          <div class="avatar" id="prevAvatar">ف</div>
+          <div><b id="prevName">صفحتك هنا</b><small id="prevLink">facebook.com/your-page • <span id="prevFollowers">0</span> متابع</small></div>
+        </div>
+        <div class="progress"><div id="prevBar"></div></div>
+        <div class="stat-row">
+          <div class="stat"><b id="sFol">0</b><small>متابع</small></div>
+          <div class="stat"><b id="sReach">0</b><small>وصول</small></div>
+          <div class="stat"><b id="sEng">0%</b><small>تفاعل</small></div>
+        </div>
+        <div class="follow-row">
+          <button class="btn" style="flex:1" onclick="simulateFollow()"><i class="fa fa-plus"></i> متابعة</button>
+          <button class="btn ghost" style="flex:1" onclick="toast('تم نسخ رابط صفحتك للمشاركة')"><i class="fa fa-share"></i> مشاركة</button>
+        </div>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-top:12px;line-height:1.8"><i class="fa fa-lock" style="color:var(--green)"></i> بياناتك محفوظة في جهازك فقط (LocalStorage). لا نرسل أي بيانات لأي سيرفر.</p>
+    </div>
+  </div>
+
+  <!-- ADD PAGE -->
+  <section id="add">
+    <div class="sec-title"><h2>1️⃣ أضف رابط صفحتك</h2><p>الصق رابط صفحة الفيسبوك وهنعملك معاينة وهدف نمو تلقائي</p></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><i class="fa fa-link" style="color:#5da4ff"></i> بيانات الصفحة</h3>
+        <label>اسم الصفحة</label>
+        <input id="pageName" placeholder="مثال: مطعم البيت الدمشقي">
+        <label>رابط صفحة الفيسبوك</label>
+        <input id="pageUrl" dir="ltr" placeholder="https://facebook.com/your-page">
+        <label>عدد المتابعين الحالي</label>
+        <input id="pageFollowers" type="number" min="0" value="1250">
+        <label>مجال الصفحة</label>
+        <select id="pageCat"><option>تجارة / متجر</option><option>مطعم / كافيه</option><option>محتوى / صناعة فيديو</option><option>خدمات / عقارات</option><option>تعليم / تدريب</option><option>أخرى</option></select>
+        <br><br>
+        <button class="btn" style="width:100%" onclick="savePage()"><i class="fa fa-save"></i> حفظ وتفعيل الصفحة</button>
+      </div>
+      <div class="card">
+        <h3><i class="fa fa-wand-magic-sparkles" style="color:var(--gold)"></i> خطة النمو المقترحة (تلقائية)</h3>
+        <p>بناءً على عدد متابعينك الحالي هنقترح عليك هدف واقعي 30 يوم:</p>
+        <div class="calc-out" id="planOut">أدخل بياناتك واضغط حفظ لعرض الخطة…</div>
+        <div class="security" style="margin-top:14px">
+          <i class="fa fa-triangle-exclamation" style="color:var(--gold);font-size:22px;margin-top:4px"></i>
+          <div><b>تحذير أمان:</b> أي موقع يطلب منك <b>باسورد فيسبوك</b> أو كود التحقق فهو موقع احتيال ويسرق حسابك. نحن لا نطلب ذلك أبداً — فقط رابط الصفحة العام.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TASKS -->
+  <section id="tasks">
+    <div class="sec-title"><h2>2️⃣ نفّذ المهام واجمع نقاط</h2><p>كل 10 نقاط = 5 متابعين. النقاط تنحفظ حتى لو قفلت المتصفح</p></div>
+    <div class="card">
+      <div class="wallet">
+        <div class="w"><small style="color:var(--muted)">رصيد النقاط</small><b style="color:var(--gold)">🪙 <span id="points">0</span></b><button class="btn gold" style="margin-top:8px;width:100%" onclick="exchange()">تحويل 10 نقاط ← 5 متابعين</button></div>
+        <div class="w"><small style="color:var(--muted)">إجمالي المتابعين المكتسبين</small><b style="color:var(--green)">+ <span id="earned">0</span></b><small style="color:var(--muted)">تسجيل دخول يومي = +5 نقاط</small><br><button class="btn green" style="margin-top:8px" onclick="dailyBonus()">مكافأة اليوم +5</button></div>
+      </div>
+      <div id="taskList"></div>
+      <h3 style="margin-top:18px">📦 طلباتك</h3>
+      <table class="table"><thead><tr><th>التاريخ</th><th>النوع</th><th>الكمية</th><th>الحالة</th></tr></thead><tbody id="orders"><tr><td colspan="4" style="color:var(--muted)">لا توجد طلبات بعد — نفذ مهام وحول نقاطك</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <!-- CALC -->
+  <section id="calc">
+    <div class="sec-title"><h2>3️⃣ حاسبة النمو</h2><p>احسب كم تحتاج يومياً للوصول لهدفك</p></div>
+    <div class="grid g2">
+      <div class="card">
+        <label>المتابعون الحاليون</label><input type="number" id="cNow" value="1250">
+        <label>الهدف</label><input type="number" id="cGoal" value="10000">
+        <label>المدة (يوم)</label><input type="number" id="cDays" value="30">
+        <br><br><button class="btn" style="width:100%" onclick="calc()">احسب الخطة</button>
+      </div>
+      <div class="card"><h3>📊 النتيجة</h3><div class="calc-out" id="calcOut">…</div></div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section id="plans">
+    <div class="sec-title"><h2>الباقات</h2><p>ابدأ مجاناً ورقّي لما تكبر صفحتك</p></div>
+    <div class="grid g3">
+      <div class="card"><div class="icon" style="background:rgba(255,255,255,.1)">🆓</div><h3>مجانية</h3><p>مهام يومية حتى 50 نقطة / طلبات متابعين بطيئة / حاسبة النمو.</p><h2>0$</h2><br><button class="btn ghost" style="width:100%" onclick="toast('تم تفعيل الباقة المجانية')">اختر المجانية</button></div>
+      <div class="card" style="border:2px solid var(--fb)"><div class="icon" style="background:var(--fb)">🚀</div><h3>النمو السريع ⭐ الأكثر طلباً</h3><p>أولوية في الطلبات + خطة محتوى 30 يوم + تحليلات متقدمة + دعم واتساب.</p><h2>9$ <small style="color:var(--muted)">/ شهر</small></h2><br><button class="btn" style="width:100%" onclick="toast('تواصل معنا على واتساب لتفعيل باقة النمو')">اشترك الآن</button></div>
+      <div class="card"><div class="icon" style="background:var(--gold)">👑</div><h3>للشركات</h3><p>إدارة كاملة للصفحة + إعلانات ممولة + تقارير أسبوعية + مدير حساب.</p><h2>49$ <small style="color:var(--muted)">/ شهر</small></h2><br><button class="btn ghost" style="width:100%" onclick="toast('سنعاود الاتصال بك لتفعيل باقة الشركات')">اطلب عرض سعر</button></div>
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section id="tips">
+    <div class="sec-title"><h2>أسرار النمو الحقيقي في فيسبوك 2026</h2><p>بدون برامج وهمية وبدون حظر</p></div>
+    <div class="grid g3">
+      <div class="card"><div class="icon" style="background:rgba(24,119,242,.2)">🎬</div><h3>ريلز يومياً</h3><p>خوارزمية فيسبوك تعطي الريلز وصول 5-10 أضعاف البوست العادي. انشر 1-2 ريلز يومياً أول 30 يوم.</p></div>
+      <div class="card"><div class="icon" style="background:rgba(34,197,94,.2)">⏰</div><h3>أفضل وقت للنشر</h3><p>في الوطن العربي: 12-2 ظهراً و 7-10 مساءً. جرّب وثبّت الموعد اللي يجيب أعلى وصول.</p></div>
+      <div class="card"><div class="icon" style="background:rgba(251,191,36,.2)">💬</div><h3>أول ساعة ذهبية</h3><p>رد على كل تعليق أول 60 دقيقة. التفاعل السريع يرفع البوست للإكسبلور ويجيب متابعين جدد.</p></div>
+      <div class="card"><div class="icon" style="background:rgba(239,68,68,.2)">🎁</div><h3>مسابقات شرعية</h3><p>مسابقة "تابع + علّق + منشن صديق" تزيد المتابعين 300% إذا الجائزة مرتبطة بمجالك.</p></div>
+      <div class="card"><div class="icon" style="background:rgba(0,212,255,.2)">🤝</div><h3>تبادل النشر</h3><p>اتفق مع 5 صفحات بنفس حجمك على مشاركة متبادلة أسبوعياً. نمو مجاني ومستمر.</p></div>
+      <div class="card"><div class="icon" style="background:rgba(168,85,247,.25)">📢</div><h3>إعلان بـ 1$ يومياً</h3><p>حملة "زيادة المتابعين" باستهداف دقيق (العمر + المدينة + الاهتمام) أرخص متابع حقيقي.</p></div>
+    </div>
+    <div style="max-width:700px;margin:20px auto 0">
+      <div class="faq"><button onclick="this.parentElement.classList.toggle('open')">هل المتابعون حقيقيون؟ <span>+</span></button><div class="a">نظام النقاط هنا هو محاكاة تعليمية داخل الموقع. النمو الحقيقي يأتي من المحتوى + المسابقات + الإعلانات الممولة كما نشرح في النصائح. نحذر من أي خدمة تبيع "10 آلاف متابع وهمي" لأن فيسبوك يحذفهم ويعاقب الصفحة.</div></div>
+      <div classfaq faq faq><div class="faq"><button onclick="this.parentElement.classList.toggle('open')">هل تطلبون باسورد حسابي؟ <span>+</span></button><div class="a">إطلاقاً. لا نطلب كلمة السر ولا كود التحقق ولا صلاحية على حسابك. فقط رابط الصفحة العام. احذر من أي موقع يطلب غير ذلك.</div></div></div>
+      <div class="faq"><button onclick="this.parentElement.classList.toggle('open')">هل الموقع مخالف لسياسة فيسبوك؟ <span>+</span></button><div class="a">لا. نحن لا نقدم بوتات ولا اختراق ولا متابعين وهميين. نقدم أدوات تنظيم + مهام تفاعل طوعي + تعليم النمو الشرعي، وهو مسموح تماماً.</div></div>
+    </div>
+  </section>
+
+  <div class="security">
+    <i class="fa fa-shield-halved" style="color:var(--green);font-size:26px"></i>
+    <div>هذا الموقع <b>نسخة تجريبية تعليمية</b> تعمل بالكامل في متصفحك بدون سيرفر. لا تدخل باسورد فيسبوك في أي موقع مشابه. لتكبير صفحتك فعلياً استخدم الإعلانات الممولة من مدير إعلانات فيسبوك الرسمي فقط.</div>
+  </div>
+</div>
+
+<footer>صُنع بـ ❤️ للنمو الشرعي • فولو بوست 2026 • <a href="#" style="text-decoration:underline">سياسة الخصوصية</a></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+let S = JSON.parse(localStorage.getItem('fbGrow')||'{"points":20,"earned":0,"followers":1250,"orders":[],"doneTasks":[],"lastDaily":""}');
+function save(){localStorage.setItem('fbGrow',JSON.stringify(S));render();}
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),2600);}
+const TASKS=[
+ {id:'t1',icon:'fa-solid fa-thumbs-up',title:'تابع 3 صفحات مقترحة',desc:'افتح فيسبوك وتابع أي 3 صفحات بمجالك',pts:10},
+ {id:'t2',icon:'fa-solid fa-share-nodes',title:'شارك رابط صفحتك في 2 جروبات',desc:'انشر رابطك مع وصف جذاب',pts:12},
+ {id:'t3',icon:'fa-solid fa-video',title:'انشر ريلز اليوم',desc:'ريلز 15-30 ثانية بهاشتاج #ريلز',pts:15},
+ {id:'t4',icon:'fa-solid fa-user-plus',title:'ادعُ 5 أصدقاء لصفحتك',desc:'من زر (دعوة الأصدقاء) داخل صفحتك',pts:8},
+ {id:'t5',icon:'fa-solid fa-comment-dots',title:'رد على 10 تعليقات',desc:'الرد السريع يرفع الوصول',pts:7},
+];
+function render(){
+ document.getElementById('points').textContent=S.points;
+ document.getElementById('hdrPoints').textContent=S.points;
+ document.getElementById('earned').textContent=S.earned;
+ document.getElementById('sFol').textContent=(S.followers+S.earned).toLocaleString('ar-EG');
+ document.getElementById('prevFollowers').textContent=(S.followers+S.earned).toLocaleString('ar-EG');
+ document.getElementById('sReach').textContent=((S.followers+S.earned)*3.2).toLocaleString('ar-EG',{maximumFractionDigits:0});
+ document.getElementById('sEng').textContent=(4+ (S.earned%7)/2 ).toFixed(1)+'%';
+ document.getElementById('prevBar').style.width=Math.min(95, 20+S.earned/2)+'%';
+ let pn=localStorage.getItem('fbName'); if(pn){document.getElementById('prevName').textContent=pn;document.getElementById('prevAvatar').textContent=pn.trim()[0];}
+ let tl=document.getElementById('taskList'); tl.innerHTML='';
+ TASKS.forEach(t=>{
+   let done=S.doneTasks.includes(t.id);
+   tl.innerHTML+=`<div class="task"><div class="t"><i class="${t.icon}"></i><div><b>${t.title}</b><br><small style="color:var(--muted)">${t.desc} • <span class="points">+${t.pts} 🪙</span></small></div></div><button class="btn ${done?'ghost':'green'}" ${done?'disabled':''} onclick="doTask('${t.id}')">${done?'تم ✓':'تنفيذ'}</button></div>`;
+ });
+ let ob=document.getElementById('orders');
+ if(!S.orders.length){ob.innerHTML='<tr><td colspan="4" style="color:var(--muted)">لا توجد طلبات بعد</td></tr>';}
+ else{ob.innerHTML=S.orders.map(o=>`<tr><td>${o.d}</td><td>${o.t}</td><td>+${o.q}</td><td style="color:var(--green)">تم التنفيذ ✓</td></tr>`).join('');}
+}
+function doTask(id){let t=TASKS.find(x=>x.id===id); if(S.doneTasks.includes(id))return; S.doneTasks.push(id); S.points+=t.pts; save(); toast(`أحسنت! +${t.pts} نقاط 🪙`);}
+function exchange(){ if(S.points<10){toast('نقاطك غير كافية — نفذ مهام أولاً');return;} S.points-=10; S.earned+=5; S.orders.unshift({d:new Date().toLocaleString('ar-EG'),t:'متابعين صفحة',q:5}); save(); toast('تم إضافة +5 متابعين لصفحتك 🎉');}
+function dailyBonus(){ let today=new Date().toDateString(); if(S.lastDaily===today){toast('أخذت مكافأة اليوم already — تعال بكرا 😉');return;} S.lastDaily=today; S.points+=5; save(); toast('+5 نقاط مكافأة يومية 🎁');}
+function savePage(){
+ let n=document.getElementById('pageName').value.trim()||'صفحتي';
+ let u=document.getElementById('pageUrl').value.trim();
+ let f=parseInt(document.getElementById('pageFollowers').value)||0;
+ if(u && !u.includes('facebook.com') && !u.includes('fb.com')){toast('الرابط يجب أن يكون رابط فيسبوك صحيح');return;}
+ localStorage.setItem('fbName',n); S.followers=f; save();
+ let goal=Math.round(f*1.8+500);
+ document.getElementById('planOut').innerHTML=`✅ تم تفعيل <b>${n}</b><br>🎯 هدف 30 يوم: <b>${goal.toLocaleString('ar-EG')} متابع</b> (تحتاج +${Math.ceil((goal-f)/30)} يومياً)<br>📅 الخطة: 1 ريلز يومياً + رد على التعليقات + مسابقة أسبوعية + إعلان 1$ يومياً.<br>🔗 ${u||'facebook.com/your-page'}`;
+ toast('تم حفظ صفحتك بنجاح ✅');
+}
+function simulateFollow(){S.earned+=1;save();toast('شكراً لمتابعتك! +1 (تجريبي)');}
+function calc(){
+ let n=+document.getElementById('cNow').value||0, g=+document.getElementById('cGoal').value||0, d=+document.getElementById('cDays').value||30;
+ if(g<=n){document.getElementById('calcOut').textContent='الهدف يجب أن يكون أكبر من الحالي';return;}
+ let need=g-n, per=Math.ceil(need/d), perW=Math.ceil(need/(d/7));
+ document.getElementById('calcOut').innerHTML=`تحتاج إجمالي: <b>${need.toLocaleString('ar-EG')}</b> متابع جديد<br>📍 يومياً: <b>${per.toLocaleString('ar-EG')}</b> متابع/يوم<br>📍 أسبوعياً: <b>${perW.toLocaleString('ar-EG')}</b><br>💡 بالمهام: ≈ <b>${Math.ceil(per/5*10)}</b> نقطة يومياً (كل 10 نقاط = 5 متابعين تجريبي)`;
+}
+// counter animation
+let c=0;let iv=setInterval(()=>{c+=137;if(c>=12480){c=12480;clearInterval(iv);}document.getElementById('usersCount').textContent=c.toLocaleString('ar-EG');},30);
+render();
+</script>
+</body>
+</html>
