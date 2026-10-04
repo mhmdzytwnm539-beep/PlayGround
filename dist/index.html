@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ملعب — أنشئ موقعك بسرعة</title>
+<meta name="description" content="ملعب: صفحة هبوط عربية سريعة وثابتة. ابنِ وجرّب وشارك." />
+<style>
+:root{--bg:#0b1020;--bg2:#111a33;--card:#16213f;--line:#2a3a65;--txt:#eef2ff;--muted:#a9b6d8;--acc:#5eead4;--acc2:#a78bfa}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:radial-gradient(1200px 600px at 70% -10%,#1e2a55 0%,var(--bg) 55%) fixed,var(--bg);color:var(--txt);line-height:1.7}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(11,16,32,.75);border-bottom:1px solid var(--line);z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#08131a;font-weight:900}
+.links{display:flex;gap:18px;color:var(--muted);font-size:15px}
+.links a{text-decoration:none}.links a:hover{color:var(--txt)}
+.btn{display:inline-block;padding:12px 22px;border-radius:12px;background:linear-gradient(135deg,var(--acc),#6ee7ff);color:#06202a;font-weight:800;text-decoration:none;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;padding:56px 0 30px;align-items:center}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.links{display:none}}
+.eyebrow{display:inline-block;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--acc);font-size:13px;background:rgba(94,234,212,.08)}
+h1{font-size:clamp(32px,5vw,56px);line-height:1.25;margin:16px 0}
+h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+p.lead{color:var(--muted);font-size:18px;margin:0 0 22px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:22px;margin-top:26px;color:var(--muted);font-size:14px}
+.stats b{display:block;font-size:22px;color:var(--txt)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:18px;padding:22px}
+.preview{aspect-ratio:4/3;border-radius:14px;background:#0a0f22;border:1px dashed #34509a;display:grid;place-items:center;overflow:hidden}
+.preview-inner{text-align:center;padding:20px}
+.dots{display:flex;gap:6px;justify-content:flex-start;margin-bottom:14px}
+.dots i{width:10px;height:10px;border-radius:50%;background:#334173;display:block}
+.dots i:first-child{background:#f87171}.dots i:nth-child(2){background:#fbbf24}.dots i:nth-child(3){background:#34d399}
+.mock{margin:10px auto;max-width:280px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.mock .bar{height:10px;border-radius:6px;background:#2b3d72;margin:8px 0}
+.mock .bar.short{width:60%}.mock .bar.acc{background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:26px 0}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.feat h3{margin:10px 0 6px;font-size:19px}
+.feat p{margin:0;color:var(--muted);font-size:15px}
+.icon{font-size:26px}
+.how{padding:10px 0 30px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:step}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+.step{border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(255,255,255,.02)}
+.step::before{counter-increment:step;content:"0" counter(step);color:var(--acc);font-weight:900;font-size:14px;letter-spacing:.1em}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<div class="brand"><span class="logo">م</span> ملعب</div>
+<nav class="links"><a href="#features">المميزات</a><a href="#how">كيف يعمل</a><a href="#start">ابدأ الآن</a></nav>
+<a class="btn" href="#start">إنشاء موقع</a>
+</div>
+</header>
+<main class="wrap">
+<section class="hero">
+<div>
+<span class="eyebrow">موقع ثابت سريع • يعمل على أي استضافة</span>
+<h1>أنشئ <span>موقعك</span> في دقائق، بدون تعقيد</h1>
+<p class="lead">صفحة هبوط عربية متجاوبة، خفيفة وسريعة. عدّل النصوص والألوان وانشرها مباشرة. لا حاجة لقواعد بيانات أو بناء معقد.</p>
+<div class="cta" id="start">
+<a class="btn" href="#features">استكشف المميزات</a>
+<a class="btn ghost" href="#how">كيف يعمل؟</a>
+</div>
+<div class="stats">
+<div><b>100/100</b> سرعة التحميل</div>
+<div><b>RTL</b> دعم عربي كامل</div>
+<div><b>0</b> اعتماديات خارجية</div>
+</div>
+</div>
+<div class="card">
+<div class="preview">
+<div class="preview-inner" style="width:100%">
+<div class="dots"><i></i><i></i><i></i></div>
+<div class="mock">
+<div style="font-weight:800">معاينة حية</div>
+<div class="bar acc"></div>
+<div class="bar"></div>
+<div class="bar short"></div>
+<div style="margin-top:12px;font-size:13px;color:var(--muted)">متجاوب مع الجوال وسطح المكتب</div>
+</div>
+</div>
+</div>
+<p style="color:var(--muted);font-size:14px;margin:14px 0 0">يُقدَّم من مجلد <code>dist/</code> على المنفذ 3000. جاهز للمعاينة والالتقاط.</p>
+</div>
+</section>
+<section id="features" class="grid">
+<div class="feat"><div class="icon">⚡</div><h3>سرعة فائقة</h3><p>ملف واحد خفيف بدون مكتبات خارجية. يفتح فوراً حتى على الشبكات البطيئة.</p></div>
+<div class="feat"><div class="icon">📱</div><h3>متجاوب بالكامل</h3><p>تصميم يتكيف مع الجوال والتابلت وسطح المكتب بتجربة متسقة.</p></div>
+<div class="feat"><div class="icon">🎨</div><h3>قابل للتخصيص</h3><p>غيّر الألوان والنصوص من ملف واحد. كل الأنماط مضمّنة بدون بناء.</p></div>
+</section>
+<section id="how" class="how">
+<div class="card">
+<h2 style="margin:0 0 12px">كيف يعمل؟</h2>
+<div class="steps">
+<div class="step"><h3>حرّر ملف index.html</h3><p style="color:var(--muted)">كل المحتوى في مكان واحد داخل المشروع.</p></div>
+<div class="step"><h3>شغّل start.sh</h3><p style="color:var(--muted)">يُنسخ إلى dist ويُقدَّم على المنفذ 3000 في المقدمة.</p></div>
+<div class="step"><h3>التقط بـ capture.sh</h3><p style="color:var(--muted)">لقطات سطح مكتب وجوال تلقائياً للتحقق البصري.</p></div>
+</div>
+</div>
+</section>
+</main>
+<footer class="wrap">
+<span>© 2026 ملعب — صُنع بحب للويب العربي</span>
+<span>الحالة: يعمل • المنفذ 3000 • مجلد dist/</span>
+</footer>
+</body>
+</html>
