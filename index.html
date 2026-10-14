@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>فرمت جوال عبر USB | Web Format Tool</title>
+<style>
+:root{
+  --bg:#0f172a; --card:#1e293b; --card2:#334155;
+  --accent:#22d3ee; --accent2:#a78bfa; --green:#22c55e; --red:#ef4444; --yellow:#f59e0b;
+  --text:#f1f5f9; --muted:#94a3b8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0f172a);color:var(--text);min-height:100vh}
+header{padding:24px 16px;text-align:center;border-bottom:1px solid #334155;background:rgba(0,0,0,.3);position:sticky;top:0;backdrop-filter:blur(10px);z-index:10}
+header h1{margin:0;font-size:28px}
+header h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{color:var(--muted);margin:8px 0 0}
+.container{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+.warning{background:rgba(239,68,68,.12);border:1px solid var(--red);border-radius:14px;padding:14px 16px;margin:18px 0;line-height:1.9}
+.warning b{color:#fca5a5}
+.card{background:var(--card);border:1px solid #334155;border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.card h2{margin:0 0 10px;font-size:20px;display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;background:#0ea5e9;color:#fff;font-size:12px;padding:3px 10px;border-radius:999px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+button{cursor:pointer;border:0;border-radius:12px;padding:13px 18px;font-size:16px;font-weight:700;color:#06202a;background:linear-gradient(90deg,var(--accent),#67e8f9);transition:.2s;width:100%}
+button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+button.secondary{background:#334155;color:#fff;border:1px solid #475569}
+button.danger{background:linear-gradient(90deg,#ef4444,#f97316);color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+select,input{width:100%;padding:12px;border-radius:10px;border:1px solid #475569;background:#0f172a;color:#fff;font-size:15px}
+label{font-size:14px;color:var(--muted);display:block;margin:10px 0 6px}
+.steps{counter-reset:step}
+.step{position:relative;padding-right:46px;margin:14px 0;background:#0f172a;border:1px solid #334155;border-radius:12px;padding:14px 52px 14px 14px;line-height:1.9}
+.step::before{counter-increment:step;content:counter(step);position:absolute;right:12px;top:14px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;font-weight:900;display:flex;align-items:center;justify-content:center}
+code.cmd{display:block;background:#000;color:#4ade80;padding:12px;border-radius:10px;margin:8px 0;direction:ltr;text-align:left;font-family:Consolas,monospace;overflow-x:auto;border:1px solid #22c55e55}
+.copy{width:auto;padding:6px 12px;font-size:13px;margin:4px 0}
+#log{background:#000;border-radius:12px;border:1px solid #334155;padding:12px;height:200px;overflow-y:auto;font-family:Consolas,monospace;font-size:13px;direction:ltr;text-align:left}
+#log .ok{color:#4ade80}#log .info{color:#93c5fd}#log .err{color:#f87171}#log .warn{color:#fbbf24}
+.status{display:flex;gap:10px;align-items:center;background:#0f172a;border:1px dashed #475569;border-radius:12px;padding:10px 14px;margin:10px 0}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--red)}
+.dot.on{background:var(--green);box-shadow:0 0 10px var(--green)}
+.device-card{background:#020617;border:1px solid var(--accent);border-radius:12px;padding:12px;margin:10px 0;direction:ltr;text-align:left;font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px;line-height:2}
+a{color:var(--accent)}
+.check{display:flex;gap:8px;align-items:flex-start;margin:8px 0;line-height:1.7;background:#0f172a;padding:10px;border-radius:10px;border:1px solid #334155}
+.check input{width:auto;margin-top:5px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.tab{padding:8px 14px;border-radius:999px;background:#0f172a;border:1px solid #475569;color:#fff;font-size:14px;cursor:pointer;width:auto}
+.tab.active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000;font-weight:800;border:0}
+.note{background:rgba(245,158,11,.12);border:1px solid var(--yellow);border-radius:12px;padding:12px;line-height:1.9;margin:10px 0}
+kbd{background:#334155;padding:2px 8px;border-radius:6px;border:1px solid #64748b}
+</style>
+</head>
+<body>
+<header>
+  <h1>📱 <span>فرمت جوال عبر وصلة USB</span></h1>
+  <p>موقع ويب يساعدك تتصل بالجوال عبر USB وتفرمته خطوة بخطوة — Android / Samsung / Xiaomi / Huawei</p>
+  <div style="margin-top:10px;font-size:13px;color:#fca5a5">⚠️ المتصفح لا يستطيع مسح الجهاز تلقائياً لأسباب أمنية — الموقع يكشف الجهاز عبر WebUSB و يعطيك الطريقة الصحيحة المضمونة</div>
+</header>
+
+<div class="container">
+
+  <div class="warning">
+    <b>⛔ تحذير مهم قبل الفرمتة:</b><br>
+    1) الفرمتة تمسح <b>كل شيء</b> (صور، واتساب، أسماء). خذ نسخة احتياطية أولاً.<br>
+    2) إذا كان الجهاز عليه حساب Google (FRP) أو iCloud احفظ الإيميل وكلمة المرور، وإلا سينقفل بعد الفرمتة.<br>
+    3) تأكد أن البطارية فوق 50% والكابل أصلي.<br>
+    4) أنت المسؤول عن جهازك — هذا الموقع للاستخدام الشخصي على أجهزتك فقط.
+  </div>
+
+  <div class="card">
+    <h2><span class="badge">1</span> توصيل الجوال بالكمبيوتر عبر USB</h2>
+    <div class="status"><div id="dot" class="dot"></div><div id="statusText">غير متصل — وصل الكابل واضغط زر الاتصال</div></div>
+    <div class="grid">
+      <button id="btnConnect">🔌 اتصال بالجهاز عبر WebUSB</button>
+      <button id="btnList" class="secondary">📋 عرض الأجهزة المحفوظة</button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.9">يعمل على: Google Chrome / Edge على الكمبيوتر (وليس الجوال). فعل <kbd>USB Debugging</kbd> من خيارات المطور إذا تبي اتصال ADB. لأجهزة Fastboot ادخل لوضع Fastboot أولاً ثم اضغط اتصال.</p>
+    <div id="devices"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="badge">2</span> اختر نوع جهازك وطريقة الفرمتة</h2>
+    <div class="grid">
+      <div>
+        <label>نوع الجوال:</label>
+        <select id="brand">
+          <option value="samsung">Samsung سامسونج</option>
+          <option value="xiaomi">Xiaomi / Redmi / POCO شاومي</option>
+          <option value="huawei">Huawei هواوي</option>
+          <option value="oppo">OPPO / Realme / Vivo</option>
+          <option value="generic">Android عام</option>
+          <option value="iphone">iPhone آيفون (لا يدعم USB Format من المتصفح)</option>
+        </select>
+      </div>
+      <div>
+        <label>الطريقة:</label>
+        <select id="method">
+          <option value="recovery">وضع الريكفري Recovery Mode (الأسهل، بدون كمبيوتر)</option>
+          <option value="adb">عبر ADB من الكمبيوتر (USB Debugging)</option>
+          <option value="fastboot">وضع Fastboot / Download (للأجهزة العالقة)</option>
+        </select>
+      </div>
+    </div>
+    <div class="tabs" id="brandTabs"></div>
+    <div id="guide"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="badge">3</span> تأكيد النسخ الاحتياطي ثم الفرمتة</h2>
+    <div class="check"><input type="checkbox" id="c1"><label for="c1" style="margin:0;color:#fff">أخذت نسخة احتياطية من الصور والأسماء والواتساب</label></div>
+    <div class="check"><input type="checkbox" id="c2"><label for="c2" style="margin:0;color:#fff">أعرف حساب Google/Apple وكلمة المرور (لتخطي قفل FRP/iCloud)</label></div>
+    <div class="check"><input type="checkbox" id="c3"><label for="c3" style="margin:0;color:#fff">البطارية فوق 50% والكابل USB أصلي ومتصل بالكمبيوتر</label></div>
+    <div class="grid" style="margin-top:12px">
+      <button id="btnFormat" class="danger" disabled>🧨 ابدأ إرشادات الفرمتة الآن</button>
+      <button id="btnCopyAll" class="secondary">📄 نسخ كل الأوامر</button>
+    </div>
+    <div class="note">💡 <b>كيف تتم الفرمتة فعلياً؟</b> المتصفح ممنوع من مسح الهاتف مباشرة. زر الفرمتة يعرض لك الأوامر الجاهزة + يرسل أمر إعادة التشغيل للريكفري إذا كان الجهاز متصلاً بـ WebUSB/ADB. التنفيذ النهائي (Wipe data) يتم بضغطة زر في الجوال نفسه — وهذه هي الطريقة الرسمية الآمنة.</div>
+  </div>
+
+  <div class="card">
+    <h2>🖥️ سجل الاتصال والأوامر</h2>
+    <div id="log"></div>
+    <div class="grid" style="margin-top:10px">
+      <button class="secondary" id="btnClear">مسح السجل</button>
+      <button class="secondary" id="btnTest">🔍 فحص دعم المتصفح</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>❓ أسئلة شائعة</h2>
+    <div class="step"><b>هل الموقع يفرمت الجوال بضغطة واحدة عبر USB؟</b><br>لا — ولا أي موقع يستطيع، لأن Chrome يمنع مسح النظام لأسباب أمنية. الصحيح: الموقع يتصل بالجهاز للتعرف عليه (VID/PID) ثم يوجهك لأسهل طريقة رسمية (ريكفري / ADB / Fastboot).</div>
+    <div class="step"><b>نسيت النقش / كلمة المرور والجهاز مقفل؟</b><br>استخدم طريقة الريكفري: أطفئ الجهاز → اضغط الأزرار الخاصة بجهازك → اختر Wipe data/factory reset. ستحتاج حساب Google بعدها.</div>
+    <div class="step"><b>آيفون؟</b><br>آيفون لا يدعم WebUSB للفرمتة. استخدم iTunes / Apple Devices على الكمبيوتر + كابل USB + وضع Recovery ثم Restore.</div>
+    <div class="step"><b>أوامر ADB الأساسية</b>
+      <code class="cmd">adb devices<br>adb reboot recovery<br>adb reboot bootloader<br>fastboot devices<br>fastboot -w<br>fastboot reboot</code>
+    </div>
+  </div>
+
+  <footer>
+    صُنع للاستخدام الشخصي على أجهزتك فقط • WebUSB يتطلب HTTPS أو localhost و Chrome على سطح المكتب<br>
+    ⚖️ لا تستخدم الأداة على أجهزة مسروقة أو ليست لك — تخطي FRP/iCloud بدون ملكية مخالف للقانون.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const logBox = $('log'), devicesBox = $('devices'), dot = $('dot'), statusText = $('statusText');
+let connectedDevice = null;
+
+function log(msg, cls='info'){
+  const d = document.createElement('div'); d.className = cls;
+  d.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  logBox.appendChild(d); logBox.scrollTop = logBox.scrollHeight;
+}
+function setStatus(on, txt){ dot.classList.toggle('on', on); statusText.textContent = txt; }
+
+const GUIDES = {
+samsung:{recovery:`<div class="step"><b>سامسونج — ريكفري (بدون كمبيوتر):</b><br>1) أطفئ الجهاز تماماً وافصل USB.<br>2) اضغط مطولاً <kbd>رفع الصوت + زر التشغيل</kbd> (الأجهزة الحديثة: وصل الجهاز بالكمبيوتر عبر USB ثم اضغط نفس الأزرار).<br>3) عند ظهور شعار Samsung اترك الأزرار.<br>4) بالأزرار انتقل إلى <b>Wipe data/factory reset</b> وأكّد بزر التشغيل.<br>5) اختر <b>Yes</b> ثم <b>Reboot system now</b>.</div>`,
+adb:`<div class="step"><b>سامسونج — عبر ADB:</b><br>1) فعل خيارات المطور: الإعدادات → حول الهاتف → اضغط رقم الإصدار 7 مرات.<br>2) فعل <b>USB debugging</b> ووصل USB ووافق على الرسالة في الجوال.</div><code class="cmd">adb devices<br>adb reboot recovery</code><div class="step">3) من الريكفري اختر Wipe data/factory reset.</div>`,
+fastboot:`<div class="step"><b>سامسونج — وضع Download (Odin):</b> سامسونج لا تستخدم Fastboot بل Download Mode: أطفئ الجهاز → اضغط <kbd>خفض الصوت + رفع الصوت</kbd> ووصل USB للكمبيوتر → اضغط رفع الصوت للدخول → استخدم برنامج Odin على الكمبيوتر للتفليش.</div>`},
+xiaomi:{recovery:`<div class="step"><b>شاومي — ريكفري:</b> أطفئ الجهاز → اضغط <kbd>رفع الصوت + التشغيل</kbd> حتى شعار MI → اختر <b>Wipe Data</b> → <b>Wipe All Data</b> → Confirm.</div>`,
+adb:`<div class="step"><b>شاومي — ADB:</b> فعل USB debugging ووصل الجهاز.</div><code class="cmd">adb devices<br>adb reboot recovery</code>`,
+fastboot:`<div class="step"><b>شاومي — Fastboot:</b> أطفئ الجهاز → اضغط <kbd>خفض الصوت + التشغيل</kbd> حتى صورة الأرنب → وصل USB.</div><code class="cmd">fastboot devices<br>fastboot -w<br>fastboot reboot</code><div class="note">⚠️ أجهزة شاومي المقفلة البوتلودر قد تمنع <kbd>fastboot -w</kbd>. استخدم الريكفري بدلاً منها.</div>`},
+huawei:{recovery:`<div class="step"><b>هواوي — ريكفري (eRecovery):</b> أطفئ الجهاز → اضغط <kbd>رفع الصوت + التشغيل</kbd> حتى الشعار → اختر <b>Clear data / Factory reset</b> → اكتب <b>yes</b> للتأكيد.</div>`,
+adb:`<div class="step"><b>هواوي — ADB:</b></div><code class="cmd">adb devices<br>adb reboot recovery</code>`,
+fastboot:`<div class="step"><b>هواوي — Fastboot:</b> أطفئ الجهاز → اضغط <kbd>خفض الصوت</kbd> ووصل USB → </div><code class="cmd">fastboot devices<br>fastboot -w<br>fastboot reboot</code>`},
+oppo:{recovery:`<div class="step"><b>OPPO / Realme / Vivo:</b> أطفئ الجهاز → اضغط <kbd>خفض الصوت + التشغيل</kbd> (بعض الأجهزة رفع الصوت) → اختر اللغة → <b>Wipe Data</b> → <b>Format Data</b> → أدخل رمز التحقق.</div>`,
+adb:`<div class="step"><b>OPPO — ADB:</b></div><code class="cmd">adb devices<br>adb reboot recovery</code>`,
+fastboot:`<div class="step"><b>OPPO — Fastboot:</b></div><code class="cmd">fastboot devices<br>fastboot -w<br>fastboot reboot</code>`},
+generic:{recovery:`<div class="step"><b>Android عام — ريكفري:</b> أطفئ الجهاز → اضغط <kbd>رفع الصوت + التشغيل</kbd> → عند ظهور الروبوت اضغط رفع الصوت+التشغيل → اختر <b>Wipe data/factory reset</b> → <b>Yes</b> → <b>Reboot</b>.</div>`,
+adb:`<div class="step"><b>Android — ADB:</b></div><code class="cmd">adb devices<br>adb reboot recovery<br># أو مسح مباشر (يحتاج صلاحيات):<br>adb shell recovery --wipe_data</code>`,
+fastboot:`<div class="step"><b>Android — Fastboot:</b> ادخل Fastboot (غالباً خفض الصوت+التشغيل) ووصل USB.</div><code class="cmd">fastboot devices<br>fastboot erase userdata<br>fastboot erase cache<br>fastboot reboot</code>`},
+iphone:{recovery:`<div class="step"><b>آيفون — لا يمكن فرمتته من المتصفح.</b><br>الطريقة الرسمية عبر الكمبيوتر:<br>1) ثبّت <b>Apple Devices</b> (ويندوز) أو iTunes.<br>2) ادخل وضع الريكفري: اضغط رفع الصوت ثم خفض الصوت ثم علّق على زر التشغيل حتى صورة الكابل.<br>3) وصل USB واضغط <b>Restore</b> في البرنامج.</div>`,
+adb:`<div class="step"><b>آيفون:</b> لا يدعم ADB/Fastboot. استخدم iTunes / Finder + كابل USB فقط.</div>`,
+fastboot:`<div class="step"><b>آيفون:</b> لا يوجد Fastboot. استخدم وضع DFU/Recovery مع Apple Devices.</div>`}
+};
+
+function renderGuide(){
+  const b = $('brand').value, m = $('method').value;
+  $('guide').innerHTML = GUIDES[b][m] || '';
+  document.querySelectorAll('#brandTabs .tab').forEach(t=>t.classList.toggle('active', t.dataset.m===m));
+  log(`عرض دليل: ${b} / ${m}`,'info');
+}
+$('brand').onchange = renderGuide; $('method').onchange = renderGuide;
+
+// tabs
+[['recovery','📲 ريكفري'],['adb','🔧 ADB'],['fastboot','⚡ Fastboot']].forEach(([m,t])=>{
+  const el=document.createElement('button'); el.className='tab'; el.textContent=t; el.dataset.m=m;
+  el.onclick=()=>{ $('method').value=m; renderGuide(); };
+  $('brandTabs').appendChild(el);
+});
+
+// checkboxes
+function checkReady(){ $('btnFormat').disabled = !($('c1').checked && $('c2').checked && $('c3').checked); }
+['c1','c2','c3'].forEach(id=>$(id).onchange=checkReady);
+
+$('btnFormat').onclick = ()=>{
+  log('تم تأكيد الشروط — ابدأ الخطوات أعلاه في جوالك','ok');
+  alert('✅ ممتاز! نفّذ الآن الخطوات المشروحة في القسم (2) على جوالك.\n\nإذا كان الجهاز متصلاً عبر USB اضغط أيضاً "اتصال بالجهاز" للتحقق من التعرف عليه.');
+  document.querySelector('.card:nth-of-type(2)').scrollIntoView({behavior:'smooth'});
+  if(connectedDevice) log('الجهاز متصل: ' + (connectedDevice.productName||'USB Device'),'ok');
+  else log('لا يوجد جهاز WebUSB متصل — أكمل الفرمتة يدوياً من الريكفري','warn');
+};
+
+$('btnCopyAll').onclick = async ()=>{
+  const txt = `adb devices\nadb reboot recovery\nadb reboot bootloader\nfastboot devices\nfastboot -w\nfastboot reboot`;
+  try{ await navigator.clipboard.writeText(txt); log('تم نسخ كل الأوامر','ok'); alert('تم نسخ الأوامر ✅'); }
+  catch{ prompt('انسخ الأوامر:', txt); }
+};
+
+// WebUSB
+$('btnConnect').onclick = async ()=>{
+  if(!('usb' in navigator)){ log('المتصفح لا يدعم WebUSB — استخدم Chrome على الكمبيوتر','err'); alert('❌ متصفحك لا يدعم WebUSB. افتح الموقع من Chrome على الكمبيوتر.'); return; }
+  try{
+    log('طلب اختيار جهاز USB...','info');
+    // فلاتر شائعة لأجهزة أندرويد
+    const filters = [
+      {vendorId:0x18d1},{vendorId:0x04e8},{vendorId:0x2717},
+      {vendorId:0x12d1},{vendorId:0x22d9},{vendorId:0x2a70},
+      {vendorId:0x0bb4},{vendorId:0x1004},{vendorId:0x19d2}
+    ];
+    let dev;
+    try{ dev = await navigator.usb.requestDevice({filters}); }
+    catch(e){ log('ألغى المستخدم الاختيار أو لا يوجد جهاز: '+e.message,'warn'); return; }
+    await dev.open();
+    connectedDevice = dev;
+    setStatus(true, 'متصل: ' + (dev.productName||'جهاز USB') + ' (VID:'+dev.vendorId.toString(16)+' PID:'+dev.productId.toString(16)+')');
+    showDevice(dev);
+    log(`متصل: VID=${dev.vendorId.toString(16)} PID=${dev.productId.toString(16)} ${dev.productName||''} ${dev.manufacturerName||''}`,'ok');
+  }catch(err){ log('فشل الاتصال: '+err.message,'err'); alert('فشل الاتصال: '+err.message); }
+};
+
+function showDevice(d){
+  devicesBox.innerHTML = `<div class="device-card">✅ <b>${d.productName||'USB Device'}</b><br>Manufacturer: ${d.manufacturerName||'unknown'}<br>VID: 0x${d.vendorId.toString(16)} &nbsp; PID: 0x${d.productId.toString(16)}<br>Serial: ${d.serialNumber||'—'}</div>`;
+}
+
+$('btnList').onclick = async ()=>{
+  if(!('usb' in navigator)){ alert('WebUSB غير مدعوم'); return; }
+  const list = await navigator.usb.getDevices();
+  if(!list.length){ log('لا توجد أجهزة محفوظة','warn'); alert('لا توجد أجهزة — اضغط "اتصال بالجهاز" أولاً'); return; }
+  devicesBox.innerHTML='';
+  list.forEach(showDeviceAppend);
+  log(`وجد ${list.length} جهاز محفوظ`,'ok');
+};
+function showDeviceAppend(d){
+  const div=document.createElement('div'); div.className='device-card';
+  div.innerHTML=`✅ <b>${d.productName||'USB Device'}</b><br>VID: 0x${d.vendorId.toString(16)} PID: 0x${d.productId.toString(16)}`;
+  devicesBox.appendChild(div);
+}
+
+if('usb' in navigator){
+  navigator.usb.addEventListener('disconnect', e=>{ setStatus(false,'انفصل الجهاز — أعد التوصيل'); log('انفصل جهاز USB','warn'); });
+  navigator.usb.addEventListener('connect', e=>{ log('تم توصيل جهاز USB جديد','ok'); });
+}
+
+$('btnClear').onclick=()=>logBox.innerHTML='';
+$('btnTest').onclick=()=>{
+  const ok = {
+    'WebUSB': ('usb' in navigator),
+    'Clipboard': (!!navigator.clipboard),
+    'HTTPS/localhost': (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')
+  };
+  Object.entries(ok).forEach(([k,v])=>log(`${k}: ${v?'✅ مدعوم':'❌ غير مدعوم'}`, v?'ok':'err'));
+  if(!ok['WebUSB']) log('الحل: افتح الموقع من Chrome/Edge على كمبيوتر','warn');
+  if(!ok['HTTPS/localhost']) log('تنبيه: WebUSB يتطلب HTTPS أو localhost','warn');
+};
+
+document.addEventListener('click', async e=>{
+  if(e.target.classList && e.target.classList.contains('copy')) return;
+});
+// نسخ سريع عند الضغط على أي أمر
+document.addEventListener('dblclick', async e=>{
+  if(e.target.classList && e.target.classList.contains('cmd')){
+    try{ await navigator.clipboard.writeText(e.target.innerText); log('تم نسخ الأمر (ضغطة مزدوجة)','ok'); }catch{}
+  }
+});
+
+renderGuide();
+log('جاهز ✅ اختر نوع جهازك وطريقة الفرمتة','ok');
+log('WebUSB: ' + (('usb' in navigator)?'مدعوم':'غير مدعوم — استخدم Chrome كمبيوتر'),'info');
+</script>
+</body>
+</html>
